@@ -3,7 +3,7 @@ using OptInfocom.Item.Domain.Models;
 
 namespace OptInfocom.Item.Data.Context
 {
-    public class ItemDbContext : DbContext
+    public class ItemDbContext : DbContext//, IItemDbContext
     {
         public ItemDbContext(DbContextOptions<ItemDbContext> options) : base(options)
         {
