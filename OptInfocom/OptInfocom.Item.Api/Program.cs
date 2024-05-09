@@ -14,9 +14,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-//ConfigureAllServices.ConfigureSupervisor(builder.Services);
-//ConfigureAllServices.AddConnectionProvider(builder.Services, builder.Configuration);
-
 builder.Services.ImplementPersistence(builder.Configuration);
 
 //https://github.com/dotnet/aspnet-api-versioning/wiki/Swashbuckle-Integration
