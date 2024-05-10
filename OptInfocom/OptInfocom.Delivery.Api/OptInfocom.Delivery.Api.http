@@ -1,0 +1,11 @@
+@OptInfocom.Delivery.Api_HostAddress = http://localhost:5109
+
+GET {{OptInfocom.Delivery.Api_HostAddress}}/api/v1/delivery/
+Accept: application/json
+
+###
+
+
+GET {{OptInfocom.Delivery.Api_HostAddress}}/api/v2/delivery/
+Accept: application/json
+###

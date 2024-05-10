@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Text;
 
-namespace OptInfocom.Item.Api.Authorization
+namespace OptInfocom.Delivery.Api.Authorization
 {
     public class ApiAuthorize : Attribute, IAuthorizationFilter
     {
@@ -92,7 +92,7 @@ namespace OptInfocom.Item.Api.Authorization
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://api.erp9i.com/api/auth/login",
+                    ValidIssuer = "http://api.domain.com/api/auth/login",
                     ValidAudience = "http://api.erp9i.com",
                     //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KeyForSignInSecret@1234"))
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appKey))

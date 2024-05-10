@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.ResponseCompression;
-using OptInfocom.Item.Api; //For Elastic Search :: Configure Elastic also in DependancyContainer
+using OptInfocom.Delivery.Api;
 using OptInfocom.Infra.IoC;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
@@ -14,9 +13,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-//ConfigureAllServices.ConfigureSupervisor(builder.Services);
-//ConfigureAllServices.AddConnectionProvider(builder.Services, builder.Configuration);
-builder.Services.ImplementPersistence(builder.Configuration);
+ConfigureAllServices.ConfigureSupervisor(builder.Services);
+ConfigureAllServices.AddConnectionProvider(builder.Services, builder.Configuration);
+//builder.Services.ImplementPersistence(builder.Configuration);
 
 //https://github.com/dotnet/aspnet-api-versioning/wiki/Swashbuckle-Integration
 builder.Services.AddApiVersioning();
@@ -34,8 +33,8 @@ builder.Services.AddApiVersioning().AddMvc().AddApiExplorer(o =>
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Item Microservice", Version = "v1.0" });
-    c.SwaggerDoc("v2.0", new OpenApiInfo { Title = "Item Microservice", Version = "v2.0" });
+    c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "Delivery Microservice", Version = "v1.0" });
+    c.SwaggerDoc("v2.0", new OpenApiInfo { Title = "Delivery Microservice", Version = "v2.0" });
 
     c.DocInclusionPredicate((version, desc) =>
     {
@@ -70,24 +69,6 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddAuthentication("Bearer")
-    .AddIdentityServerAuthentication("Bearer", options =>
-    {
-        options.ApiName = "order.erp9i.api";
-        options.Authority = "http://token.erp9i.com";
-        options.RequireHttpsMetadata = false; //Commented By Sambhav :: Gets or sets if HTTPS is required for the metadata address or authority. The default is true. This should be disabled only in development environments.
-    });
-
-#region(Added By Sambhav For Compression ===============================================)
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-          options.Level = System.IO.Compression.CompressionLevel.Optimal);
-builder.Services.AddResponseCompression(options =>
-{
-    options.Providers.Add<GzipCompressionProvider>();
-});
-#endregion
-builder.Services.AddElasticSearch(builder.Configuration);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -96,8 +77,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint($"/swagger/v1.0/swagger.json", $"Item Microservice v1.0");
-        c.SwaggerEndpoint($"/swagger/v2.0/swagger.json", $"Item Microservice v2.0");
+        c.SwaggerEndpoint($"/swagger/v1.0/swagger.json", $"Delivery Microservice v1.0");
+        c.SwaggerEndpoint($"/swagger/v2.0/swagger.json", $"Delivery Microservice v2.0");
     });
 }
 else
@@ -105,14 +86,13 @@ else
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint($"/swagger/v1.0/swagger.json", $"Item Microservice v1.0");
-        c.SwaggerEndpoint($"/swagger/v2.0/swagger.json", $"Item Microservice v2.0");
+        c.SwaggerEndpoint($"/swagger/v1.0/swagger.json", $"Delivery Microservice v1.0");
+        c.SwaggerEndpoint($"/swagger/v2.0/swagger.json", $"Delivery Microservice v2.0");
     });
 }
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseResponseCompression();//Added By Sambhav For Compression
+
 app.Run();

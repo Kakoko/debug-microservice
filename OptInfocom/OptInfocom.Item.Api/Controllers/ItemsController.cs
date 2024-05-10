@@ -18,11 +18,13 @@ namespace OptInfocom.Item.Api.Controllers
     [ApiController]
     public class ItemsController : ControllerBase
     {
+        public readonly IMasterDatabaseService _databaseService;
         public readonly IItemService _itemService;
         private readonly IElasticClient _elasticClient;
 
-        public ItemsController(IItemService itemService, IElasticClient elasticClient)
+        public ItemsController(IMasterDatabaseService databaseService, IItemService itemService, IElasticClient elasticClient)
         {
+            _databaseService = databaseService;
             _itemService = itemService;
             _elasticClient = elasticClient;
         }
