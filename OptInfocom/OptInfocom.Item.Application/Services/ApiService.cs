@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OptInfocom.Item.Api.Model;
 using OptInfocom.Item.Application.Interfaces;
-using OptInfocom.Item.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,24 +14,37 @@ namespace OptInfocom.Item.Application.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
+      //  private readonly IDictionary<string, string> _defaultHeaders;
 
         public ApiService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
-            _baseUrl = configuration.GetSection("BaseUrl").Value; // Get base URL directly
+            _baseUrl = configuration.GetSection("BaseUrl").Value; 
             _httpClient.BaseAddress = new Uri(_baseUrl);
+           
         }
 
         public async Task<TResponse> SendRequestAsync<TRequest, TResponse>(
             HttpMethod method,
             string endpointUrl,
-            TRequest requestBody = default)
+            TRequest requestBody = default,
+            IDictionary<string, string> additionalHeaders = null)
             where TRequest : class
             where TResponse : class
         {
      
             using var request = new HttpRequestMessage(method, new Uri(_baseUrl + endpointUrl));
 
+           
+
+            // Add additional headers (if provided)
+            if (additionalHeaders != null)
+            {
+                foreach (var header in additionalHeaders)
+                {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
 
             if (requestBody != null)
             {

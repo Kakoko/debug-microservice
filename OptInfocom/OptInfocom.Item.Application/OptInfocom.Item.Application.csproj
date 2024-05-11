@@ -21,4 +21,8 @@
     <ProjectReference Include="..\OptInfocom.Item.Domain\OptInfocom.Item.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

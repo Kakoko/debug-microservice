@@ -1,5 +1,4 @@
-﻿using OptInfocom.Item.Api.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,8 @@ namespace OptInfocom.Item.Application.Interfaces
         Task<TResponse> SendRequestAsync<TRequest, TResponse>(
         HttpMethod method,
         string endpointUrl,
-        TRequest requestBody = default)
+        TRequest requestBody = default,
+        IDictionary<string, string> additionalHeaders = null)
         where TRequest : class
         where TResponse : class;
     }

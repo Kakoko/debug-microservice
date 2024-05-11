@@ -159,6 +159,11 @@ namespace OptInfocom.Item.Api.Controllers
         [Route("consume-delivery")]
         public async Task<IActionResult> ConsumeDelivery(int masterId)
         {
+            var headers = new Dictionary<string, string>
+            {
+                    { "Authorization", "Bearer your_access_token" },
+                    { "Custom-Header", "value" }
+            };
             var result = await _apiService.SendRequestAsync<object, DeliveryStatus>(HttpMethod.Get, $"api/v1/Delivery/status/id/{masterId}");
             ResponseFormatter<object> response = new ResponseFormatter<object>()
             {
