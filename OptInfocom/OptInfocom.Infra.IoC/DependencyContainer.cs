@@ -53,7 +53,7 @@ namespace OptInfocom.Infra.IoC
 
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IApiService, ApiService>();
-            services.AddTransient<IDeliveryApiService, DeliveryApiService>();
+
 
             //services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
             //services.AddTransient<IItemService, ItemService>();
@@ -75,10 +75,11 @@ namespace OptInfocom.Infra.IoC
         public static void RegisterServices(IServiceCollection services)
         {
             //Domain Bus
-
+            services.AddHttpClient();
             //Application Service
             services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
             services.AddTransient<ISalesInvoiceService, SalesInvoiceService>();
+            services.AddTransient<IDeliveryApiService, DeliveryApiService>();
 
             //Data
             services.AddTransient<IDeliveryStatusRepository, DeliveryStatusRepository>();

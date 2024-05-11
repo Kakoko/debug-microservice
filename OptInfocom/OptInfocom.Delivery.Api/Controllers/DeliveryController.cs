@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OptInfocom.Delivery.Api.Authorization;
 using OptInfocom.Delivery.Api.Formatting;
+using OptInfocom.Delivery.Api.Models;
 using OptInfocom.Delivery.Application.Interfaces;
 using OptInfocom.Delivery.Domain.Models;
 using OptInfocom.Item.Application.Interfaces;
@@ -20,10 +21,12 @@ namespace OptInfocom.Delivery.Api.Controllers
     {
         //public readonly IItemService _itemService;
         public readonly IDeliveryStatusService _deliveryStatusService;
-        public DeliveryController(IDeliveryStatusService deliveryStatusService)
+        public readonly IDeliveryApiService _deliveryApiService;
+        public DeliveryController(IDeliveryStatusService deliveryStatusService, IDeliveryApiService deliveryApiService)
         {
             //_itemService = itemService;
             _deliveryStatusService = deliveryStatusService;
+            _deliveryApiService = deliveryApiService;
         }
 
         #region(v1.0 ===================================================================)
@@ -86,5 +89,30 @@ namespace OptInfocom.Delivery.Api.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        [MapToApiVersion("1.0")]
+        [Route("consume-item")]
+        public async Task<IActionResult> ConsumeItem()
+        {
+            var headers = new Dictionary<string, string>
+            {
+                    { "authorization", "Bearer your_access_token" },
+                    { "appid", "value" },
+                    { "appkey", "1234EABCD-5678-4321-9F3E-DEF123456789" }
+                   
+            };
+            var result =  await  _deliveryApiService.SendRequestAsync<object , ItemResponse>(HttpMethod.Get, $"api/v1/Items/all", null , headers);
+           
+            ResponseFormatter<object> response = new ResponseFormatter<object>()
+            {
+                code = (int)HttpStatusCode.OK,
+                success = true,
+                message = "all item",
+                data = new { resultSet = result },
+                pagination = null
+            };
+            return Ok(response);
+        }
     }
 }
