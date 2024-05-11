@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OptInfocom.Item.Api.Model;
 using OptInfocom.Item.Application.Interfaces;
 using OptInfocom.Item.Application.Models;
 using System;
@@ -29,7 +31,9 @@ namespace OptInfocom.Item.Application.Services
             where TRequest : class
             where TResponse : class
         {
-            using var request = new HttpRequestMessage(method, new Uri(endpointUrl));
+     
+            using var request = new HttpRequestMessage(method, new Uri(_baseUrl + endpointUrl));
+
 
             if (requestBody != null)
             {
@@ -44,7 +48,11 @@ namespace OptInfocom.Item.Application.Services
             if (response.IsSuccessStatusCode)
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResponse>(responseContent);
+                var responseData = JObject.Parse(responseContent)["data"]["resultSet"].ToString();
+                var resultSet = JsonConvert.DeserializeObject<List<TResponse>>(responseData);
+
+                
+                return resultSet.FirstOrDefault();
             }
             else
             {

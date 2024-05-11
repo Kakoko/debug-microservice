@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Nest;
+using OptInfocom.Delivery.Domain.Models;
 using OptInfocom.Item.Api.Authorization;
 using OptInfocom.Item.Api.Formatting;
+using OptInfocom.Item.Api.Model;
 using OptInfocom.Item.Application.Interfaces;
 using OptInfocom.Item.Domain.Models;
 using System.Net;
@@ -20,13 +22,15 @@ namespace OptInfocom.Item.Api.Controllers
     {
         public readonly IMasterDatabaseService _databaseService;
         public readonly IItemService _itemService;
+        public readonly IApiService _apiService;
         private readonly IElasticClient _elasticClient;
 
-        public ItemsController(IMasterDatabaseService databaseService, IItemService itemService, IElasticClient elasticClient)
+        public ItemsController(IMasterDatabaseService databaseService, IItemService itemService, IElasticClient elasticClient, IApiService apiService)
         {
             _databaseService = databaseService;
             _itemService = itemService;
             _elasticClient = elasticClient;
+            _apiService = apiService;
         }
 
         #region(v1.0 ===================================================================)
@@ -149,5 +153,26 @@ namespace OptInfocom.Item.Api.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        [MapToApiVersion("1.0")]
+        [Route("consume-delivery")]
+        public async Task<IActionResult> ConsumeDelivery(int masterId)
+        {
+            var result = await _apiService.SendRequestAsync<object, DeliveryStatus>(HttpMethod.Get, $"api/v1/Delivery/status/id/{masterId}");
+            ResponseFormatter<object> response = new ResponseFormatter<object>()
+            {
+                code = (int)HttpStatusCode.OK,
+                success = true,
+                message = "all item",
+                data = new { resultSet = result },
+                pagination = null
+            };
+
+            return Ok(response);
+
+        }
+
+      
     }
 }
