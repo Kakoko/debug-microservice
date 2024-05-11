@@ -53,6 +53,7 @@ namespace OptInfocom.Infra.IoC
 
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<IDeliveryApiService, DeliveryApiService>();
 
             //services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
             //services.AddTransient<IItemService, ItemService>();
