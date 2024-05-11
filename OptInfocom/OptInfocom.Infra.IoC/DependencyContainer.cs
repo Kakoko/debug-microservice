@@ -39,8 +39,8 @@ namespace OptInfocom.Infra.IoC
                 var tenant = httpContextAccessor.HttpContext?.Request.Headers["tenant"].FirstOrDefault();
 
                 var connectionStringProvider = serviceProvider.GetRequiredService<IMasterDatabaseService>();
-                //var connectionString = connectionStringProvider.GetUserCompanyConnectionString(divisionCode);
-                var connectionString = connectionStringProvider.GetUserCompanyConnectionString(tenant);
+                var connectionString = connectionStringProvider.GetUserCompanyConnectionString(divisionCode);
+              //  var connectionString = connectionStringProvider.GetUserCompanyConnectionString(tenant);
 
                 options.UseSqlServer(connectionString);
             });
@@ -52,6 +52,7 @@ namespace OptInfocom.Infra.IoC
             services.AddTransient<IMasterDatabaseService, MasterDatabaseService>();
 
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IApiService, ApiService>();
 
             //services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
             //services.AddTransient<IItemService, ItemService>();

@@ -31,12 +31,18 @@ namespace OptInfocom.Item.Api.Authorization
                 var _appid = AppID.FirstOrDefault();
                 _appKey = AppKey.FirstOrDefault();
 
+                // Store appkey in HttpContext.Items
+                if (_appKey != null)
+                {
+                    filterContext.HttpContext.Items["appkey"] = _appKey;
+                }
+
                 if (_token != null)
                 {
                     string authToken = _token;
                     if (authToken != null)
                     {
-                        if (IsValidToken(authToken))
+                        if (!IsValidToken(authToken))
                         {
                             filterContext.HttpContext.Response.Headers.Add("Authorization", authToken);
                             filterContext.HttpContext.Response.Headers.Add("AuthStatus", "Authorized");
