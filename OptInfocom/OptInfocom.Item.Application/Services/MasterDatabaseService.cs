@@ -1,10 +1,5 @@
 ﻿using OptInfocom.Item.Application.Interfaces;
 using OptInfocom.Item.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OptInfocom.Item.Application.Services
 {

@@ -22,69 +22,29 @@ namespace OptInfocom.Infra.IoC
 {
     public static class DependencyContainer
     {
-        public static IServiceCollection ImplementPersistence(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<MasterDbContext>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("MasterDbConnection"));
-            });
+        //public static IServiceCollection ImplementPersistence(this IServiceCollection services, IConfiguration configuration)
+        //{
+            
 
-            services.AddDbContext<ItemDbContext>((serviceProvider, options) =>
-            {
-                //For : IHttpContextAccessor
-                //https://learn.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/6.0/microsoft-aspnetcore-http-features-package-split
-
-                var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-                var divisionCode = httpContextAccessor.HttpContext?.Request.Headers["appkey"].FirstOrDefault();
-                var tenant = httpContextAccessor.HttpContext?.Request.Headers["tenant"].FirstOrDefault();
-
-                var connectionStringProvider = serviceProvider.GetRequiredService<IMasterDatabaseService>();
-                var connectionString = connectionStringProvider.GetUserCompanyConnectionString(divisionCode);
-              //  var connectionString = connectionStringProvider.GetUserCompanyConnectionString(tenant);
-
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddTransient<DeliveryDbContext>();
-
-            //Application Service
-            services.AddTransient<IConnectionStringProvider, ConnectionStringProvider>();
-            services.AddTransient<IMasterDatabaseService, MasterDatabaseService>();
-
-            services.AddTransient<IItemService, ItemService>();
-            services.AddTransient<IApiService, ApiService>();
+        //  //  services.AddTransient<DeliveryDbContext>();
 
 
-            //services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
-            //services.AddTransient<IItemService, ItemService>();
-            //services.AddTransient<ISalesInvoiceService, SalesInvoiceService>();
+        //  //  return services;
+        //}
 
-            //Data
-            services.AddTransient<IMasterDatabaseRepository, MasterDatabaseRepository>();
+        //public static void RegisterServices(IServiceCollection services)
+        //{
+        //    //Domain Bus
+        //   // services.AddHttpClient();
+        //    ////Application Service
+        //    //services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
+        //    //services.AddTransient<ISalesInvoiceService, SalesInvoiceService>();
+        //    //services.AddTransient<IDeliveryApiService, DeliveryApiService>();
 
-            services.AddTransient<IItemRepository, ItemRepository>();
-
-            //services.AddTransient<IDeliveryStatusRepository, DeliveryStatusRepository>();
-            //services.AddTransient<IItemRepository, ItemRepository>();
-            //services.AddTransient<ISalesInvoiceRepository, SalesInvoiceRepository>();
-
-
-            return services;
-        }
-
-        public static void RegisterServices(IServiceCollection services)
-        {
-            //Domain Bus
-            services.AddHttpClient();
-            //Application Service
-            services.AddTransient<IDeliveryStatusService, DeliveryStatusService>();
-            services.AddTransient<ISalesInvoiceService, SalesInvoiceService>();
-            services.AddTransient<IDeliveryApiService, DeliveryApiService>();
-
-            //Data
-            services.AddTransient<IDeliveryStatusRepository, DeliveryStatusRepository>();
-            services.AddTransient<ISalesInvoiceRepository, SalesInvoiceRepository>();
-            services.AddTransient<DeliveryDbContext>();
-        }
+        //    //Data
+        //    //services.AddTransient<IDeliveryStatusRepository, DeliveryStatusRepository>();
+        //    //services.AddTransient<ISalesInvoiceRepository, SalesInvoiceRepository>();
+        //    //services.AddTransient<DeliveryDbContext>();
+        //}
     }
 }

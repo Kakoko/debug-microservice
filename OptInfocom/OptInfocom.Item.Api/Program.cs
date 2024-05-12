@@ -3,6 +3,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.ResponseCompression;
 using OptInfocom.Item.Api; //For Elastic Search :: Configure Elastic also in DependancyContainer
 using OptInfocom.Infra.IoC;
+using OptInfocom.Item.Data;
+using OptInfocom.Item.Application;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -16,7 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 //ConfigureAllServices.ConfigureSupervisor(builder.Services);
 //ConfigureAllServices.AddConnectionProvider(builder.Services, builder.Configuration);
-builder.Services.ImplementPersistence(builder.Configuration);
+//builder.Services.ImplementPersistence(builder.Configuration);
+builder.Services.AddDataServicesImplementation(builder.Configuration);
+builder.Services.AddApplicationImplementation(builder.Configuration);
 
 //https://github.com/dotnet/aspnet-api-versioning/wiki/Swashbuckle-Integration
 builder.Services.AddApiVersioning();

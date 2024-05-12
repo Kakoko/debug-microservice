@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OptInfocom.Infra.IoC\OptInfocom.Infra.IoC.csproj" />
+    <ProjectReference Include="..\OptInfocom.Item.Data\OptInfocom.Item.Data.csproj" />
   </ItemGroup>
 
 </Project>

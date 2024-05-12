@@ -36,7 +36,24 @@ namespace OptInfocom.Delivery.Api.Controllers
         [Route("status/id/{id}", Name = nameof(GetStatus_V1))]
         public async Task<IActionResult> GetStatus_V1(int id, CancellationToken cancellationToken = default)
         {
-            //var test = await _itemService.GetByIDAsync(1);
+            // Extract headers from the request
+            var authorizationHeader = HttpContext.Request.Headers["Authorization"];
+            var appIdHeader = HttpContext.Request.Headers["appid"];
+            var appKeyHeader = HttpContext.Request.Headers["appkey"];
+
+            // Make an API call to Item API to Get By ID
+            var headers = new Dictionary<string, string>
+            {
+                    { "Authorization", authorizationHeader },
+                    { "appid", appIdHeader },
+                    { "appkey", appKeyHeader }
+            };
+
+            //When you request for Item Data
+            //Do you care about how the data is returned?
+            // Do you just want to get the data?
+            var resultFromItemApi = await _deliveryApiService.SendRequestAsync<object, ItemResponse>(HttpMethod.Get, $"api/v1/Items/id/{id}", null, headers);
+
             var result = await _deliveryStatusService.GetByInvoiceIDAsync(id, cancellationToken);
             ResponseFormatter<object> response = new ResponseFormatter<object>()
             {
@@ -48,6 +65,13 @@ namespace OptInfocom.Delivery.Api.Controllers
             };
             return Ok(response);
         }
+
+        //For New Developer all they do is create a new solution for their
+        //microservice and start coding. You will agree on the endpoint
+        //to give you the data you need
+
+
+        //For the IoC , that will take some time to rearrange the code
 
         [HttpPost]
         [MapToApiVersion("1.0")]
@@ -104,7 +128,7 @@ namespace OptInfocom.Delivery.Api.Controllers
             };
             var result =  await  _deliveryApiService.SendRequestAsync<object , ItemResponse>(HttpMethod.Get, $"api/v1/Items/all", null , headers);
            
-
+    
             ResponseFormatter<object> response = new ResponseFormatter<object>()
             {
                 code = (int)HttpStatusCode.OK,

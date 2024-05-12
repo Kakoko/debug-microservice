@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptInfocom.Delivery.Data", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptInfocom.Delivery.Domain", "OptInfocom.Delivery.Domain\OptInfocom.Delivery.Domain.csproj", "{D11A47BF-B744-422E-9B05-BEF9BC66D35B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{0422B12B-70BD-42F2-A8E1-92BDFF7EC698}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,7 @@ Global
 		{B5163598-650F-464D-854E-CFD1697B48E0} = {CD20B6B1-13F4-4C8A-A425-4A2FD45B33BF}
 		{BA6566D9-11CB-44A3-868B-12716FF1E812} = {BD06A652-3EE6-4ADE-B446-36924744B58C}
 		{D11A47BF-B744-422E-9B05-BEF9BC66D35B} = {2728F0CD-9A71-4C86-986C-888C0829B0AE}
+		{0422B12B-70BD-42F2-A8E1-92BDFF7EC698} = {B032F301-A0E9-4A8E-8BB3-66ED82DC9CB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE78DE7B-A50E-4D57-BDEA-8061358A5190}

@@ -8,7 +8,7 @@ namespace OptInfocom.Delivery.Api
     {
         public static void ConfigureSupervisor(IServiceCollection services)
         {
-            DependencyContainer.RegisterServices(services);
+           // DependencyContainer.RegisterServices(services);
         }
 
         public static void AddConnectionProvider(IServiceCollection services, IConfiguration configuration)
